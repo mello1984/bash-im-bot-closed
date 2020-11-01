@@ -6,7 +6,8 @@ plugins {
 
 group 'my.telegrambot'
 version '1.0'
-mainClassName = 'com.annimon.tgbotsmodule.Runner'
+//mainClassName = 'com.annimon.tgbotsmodule.Runner'
+mainClassName = 'my.telegrambot.ExampleBot'
 
 sourceCompatibility = 14
 
