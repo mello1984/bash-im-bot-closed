@@ -8,7 +8,6 @@ import java.util.Random;
 import java.util.Set;
 
 public class QuoteParser {
-    private static final int maxNumber = BaseUpdater.getInstance().getMaxNumberQuote();
     static Set<Integer> set = new HashSet<>();
     private final Random random = new Random();
 
@@ -29,7 +28,7 @@ public class QuoteParser {
 
     private int getRandomNumber() {
         int i;
-        while (set.contains(i = random.nextInt(maxNumber) + 1)) {
+        while (set.contains(i = random.nextInt(DataUpdater.getInstance().getMaxNumberQuote()) + 1)) {
         }
         return i;
     }

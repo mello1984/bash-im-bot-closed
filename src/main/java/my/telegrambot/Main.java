@@ -14,7 +14,7 @@ public class Main {
             e.printStackTrace();
         }
 
-        Thread updaterThread = new Thread(BaseUpdater.getInstance());
+        Thread updaterThread = new Thread(DataUpdater.getInstance());
         updaterThread.setDaemon(true);
         updaterThread.start();
     }

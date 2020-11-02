@@ -4,3 +4,4 @@
 out
 gen
 *.iml
+src/main/java/Test.java

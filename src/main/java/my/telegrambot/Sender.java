@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 
 public class Sender {
     private final QuoteParser quoteParser = new QuoteParser();
+    private final StripsParser stripsParser = new StripsParser();
     private final BashBot bot;
     final Logger logger = Logger.getLogger(this.getClass().getName());
 
@@ -16,17 +17,24 @@ public class Sender {
         this.bot = bot;
     }
 
-    public synchronized void sendText(Long chatId, String s) {
+    public void sendText(Long chatId, String s) {
         SendMessage sendMessage = SendMessageFormat.getSendMessageBaseFormat(chatId)
                 .setText(s);
         send(sendMessage, MessageType.QUOTE);
     }
 
-    public synchronized void sendRandomQuote(Long chatId) {
+    public void sendRandomQuote(Long chatId) {
         sendText(chatId, quoteParser.getRandomQuote());
     }
 
-    private void send(SendMessage message, MessageType messageType) {
+    public void sendStrip(Long chatId) {
+        SendMessage sendMessage = SendMessageFormat.getSendMessageBaseFormat(chatId)
+                .enableWebPagePreview()
+                .setText(stripsParser.getRandomStrip());
+        send(sendMessage, MessageType.IMAGE);
+    }
+
+    private synchronized void send(SendMessage message, MessageType messageType) {
         try {
             bot.execute(message);
             logger.log(Level.INFO, String.format("Message %s sent to: %s", messageType, message.getChatId()));

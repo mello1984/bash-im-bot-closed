@@ -13,7 +13,7 @@ public class DocumentDownloader {
     private static final Logger logger = Logger.getLogger(DocumentDownloader.class.getName());
     private static DocumentDownloader downloader;
 
-    Optional<Document> download(String url) {
+    public Optional<Document> download(String url) {
         Optional<Document> document = Optional.empty();
         try {
             document = Optional.ofNullable(Jsoup.connect(url).get());
@@ -24,7 +24,7 @@ public class DocumentDownloader {
         return document;
     }
 
-    static DocumentDownloader getInstance() {
+    public static DocumentDownloader getInstance() {
         if (downloader == null) downloader = new DocumentDownloader();
         return downloader;
     }

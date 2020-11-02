@@ -24,6 +24,9 @@ dependencies {
     compile group: 'org.jsoup', name: 'jsoup', version: '1.13.1'
     // https://mvnrepository.com/artifact/com.github.johnrengelman.shadow/com.github.johnrengelman.shadow.gradle.plugin
     compile group: 'com.github.johnrengelman.shadow', name: 'com.github.johnrengelman.shadow.gradle.plugin', version: '6.1.0', ext: 'pom'
+    // https://mvnrepository.com/artifact/org.postgresql/postgresql
+    compile group: 'org.postgresql', name: 'postgresql', version: '42.2.18'
+
 }
 
 compileJava.options.encoding = 'UTF-8'
