@@ -13,5 +13,9 @@ public class Main {
         } catch (org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException e) {
             e.printStackTrace();
         }
+
+        Thread updaterThread = new Thread(BaseUpdater.getInstance());
+        updaterThread.setDaemon(true);
+        updaterThread.start();
     }
 }

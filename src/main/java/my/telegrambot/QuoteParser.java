@@ -8,7 +8,7 @@ import java.util.Random;
 import java.util.Set;
 
 public class QuoteParser {
-    private static final int maxNumber = 460000;
+    private static final int maxNumber = BaseUpdater.getInstance().getMaxNumberQuote();
     static Set<Integer> set = new HashSet<>();
     private final Random random = new Random();
 
@@ -34,3 +34,4 @@ public class QuoteParser {
         return i;
     }
 }
+ 
