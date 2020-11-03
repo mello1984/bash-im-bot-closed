@@ -1,5 +1,6 @@
 package my.telegrambot;
 
+import my.telegrambot.updater.UpdaterService;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
@@ -9,8 +10,8 @@ import java.util.Optional;
 import java.util.Random;
 
 class StripsParser {
-    private static final Map<Integer, Integer> mapStrips = DataUpdater.getInstance().getMapStrips();
-    private static final List<Integer> keyStrips = DataUpdater.getInstance().getKeyStrips();
+    private static final Map<Integer, Integer> mapStrips = UpdaterService.getInstance().getMapStrips();
+    private static final List<Integer> keyStrips = UpdaterService.getInstance().getKeyStrips();
     private static final Random random = new Random();
 
      String getRandomStrip() {

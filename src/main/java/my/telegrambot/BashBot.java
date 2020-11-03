@@ -14,7 +14,6 @@ public class BashBot extends TelegramLongPollingBot {
     public void onUpdateReceived(Update update) {
         String message = update.getMessage().getText();
         Long chatId = update.getMessage().getChatId();
-        System.out.println(message);
         if (message.equals(ButtonsType.Random.name())) sender.sendRandomQuote(chatId);
         else if (message.equals(ButtonsType.Image.name())) sender.sendStrip(chatId);
         else sender.sendText(chatId, message);

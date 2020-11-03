@@ -1,5 +1,6 @@
 package my.telegrambot;
 
+import my.telegrambot.updater.UpdaterService;
 import org.jsoup.nodes.Document;
 
 import java.util.HashSet;
@@ -28,7 +29,7 @@ public class QuoteParser {
 
     private int getRandomNumber() {
         int i;
-        while (set.contains(i = random.nextInt(DataUpdater.getInstance().getMaxNumberQuote()) + 1)) {
+        while (set.contains(i = random.nextInt(UpdaterService.getInstance().getMaxNumberQuote()) + 1)) {
         }
         return i;
     }

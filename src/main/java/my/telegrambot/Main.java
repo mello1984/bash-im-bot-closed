@@ -1,5 +1,6 @@
 package my.telegrambot;
 
+import my.telegrambot.updater.UpdaterService;
 import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 
@@ -14,7 +15,7 @@ public class Main {
             e.printStackTrace();
         }
 
-        Thread updaterThread = new Thread(DataUpdater.getInstance());
+        Thread updaterThread = new Thread(UpdaterService.getInstance());
         updaterThread.setDaemon(true);
         updaterThread.start();
     }
