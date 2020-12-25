@@ -3,13 +3,10 @@ package my.telegrambot;
 import my.telegrambot.updater.UpdaterService;
 import org.jsoup.nodes.Document;
 
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 
 public class QuoteParser {
-    static Set<Integer> set = new HashSet<>();
+    static Collection<Integer> quotesCollection = UpdaterService.getInstance().getQuotesCollection();
     private final Random random = new Random();
 
     public String getRandomQuote() {
@@ -21,7 +18,7 @@ public class QuoteParser {
                 if (doc.get().title().startsWith("Цитата #")) {
                     Quote quote = new Quote(doc.get().select("article").first());
                     out = quote.toString();
-                } else set.add(i);
+                } else quotesCollection.add(i);
             }
         }
         return out;
@@ -29,7 +26,7 @@ public class QuoteParser {
 
     private int getRandomNumber() {
         int i;
-        while (set.contains(i = random.nextInt(UpdaterService.getInstance().getMaxNumberQuote()) + 1)) {
+        while (quotesCollection.contains(i = random.nextInt(UpdaterService.getInstance().getMaxNumberQuote()) + 1)) {
         }
         return i;
     }

@@ -1,48 +1,43 @@
 package my.telegrambot.updater;
 
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.experimental.FieldDefaults;
+import lombok.extern.log4j.Log4j2;
+
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
+@Log4j2
+@Getter
+@FieldDefaults(level = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class UpdaterService implements Runnable {
-    private static UpdaterService constantsUpdater = null;
-    private final static Logger logger = Logger.getLogger(UpdaterService.class.getName());
-    private volatile int maxNumberQuote = 450000;
-    private volatile Map<Integer, Integer> mapStrips;
-    private volatile List<Integer> keyStrips;
-
-
-    private UpdaterService() {
-        mapStrips = StripsUpdater.loadMapStrips();
-        keyStrips = new ArrayList<>(mapStrips.keySet());
-    }
-
-    public static synchronized UpdaterService getInstance() {
-        if (constantsUpdater == null) constantsUpdater = new UpdaterService();
-        return constantsUpdater;
-    }
+    volatile int maxNumberQuote = 450000;
+    final Collection<Integer> quotesCollection = DataBaseUpdater.loadQuotesCollection();
+    final Collection<Integer> stripsCollection = DataBaseUpdater.loadStripsCollection();
 
     @Override
     public void run() {
         while (!Thread.currentThread().isInterrupted()) {
             updateMaxNumberOfQuote();
             updateMapStrips();
-            sleep(60 * 60 * 1000);
+            DataBaseUpdater.saveQuotesCollection();
+            sleep(6 * 60 * 60 * 1000);
         }
     }
 
     private void updateMaxNumberOfQuote() {
         int max = Math.max(maxNumberQuote, MaxNumberQuoteUpdater.updateMaxNumberOfQuote());
         maxNumberQuote = max;
-        logger.log(Level.INFO, String.format("Update maxNumberQuote: %d->%d", maxNumberQuote, max));
+        log.info(String.format("Update maxNumberQuote: %d->%d", maxNumberQuote, max));
     }
 
     private void updateMapStrips() {
         boolean needMapStripsUpdate = StripsUpdater.updateDataBase();
         if (needMapStripsUpdate) {
-            mapStrips = StripsUpdater.loadMapStrips();
-            keyStrips = new ArrayList<>(mapStrips.keySet());
-            logger.log(Level.INFO, String.format("Update map of strips, current size: %d", mapStrips.size()));
+            DataBaseUpdater.saveStripsCollection();
+            log.info(String.format("Update list of strips, current size: %d", stripsCollection.size()));
         }
     }
 
@@ -50,19 +45,15 @@ public class UpdaterService implements Runnable {
         try {
             Thread.sleep(millis);
         } catch (InterruptedException e) {
-            logger.log(Level.SEVERE, "Exception in UpdaterService", e);
+            log.warn(e);
         }
     }
 
-    public Map<Integer, Integer> getMapStrips() {
-        return Collections.unmodifiableMap(mapStrips);
+    public static UpdaterService getInstance() {
+        return UpdaterServiceHolder.HOLDER_INSTANCE;
     }
 
-    public List<Integer> getKeyStrips() {
-        return Collections.unmodifiableList(keyStrips);
-    }
-
-    public Integer getMaxNumberQuote() {
-        return maxNumberQuote;
+    private static class UpdaterServiceHolder {
+        public static final UpdaterService HOLDER_INSTANCE = new UpdaterService();
     }
 }

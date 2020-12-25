@@ -12,11 +12,14 @@ public class BashBot extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
-        String message = update.getMessage().getText();
-        Long chatId = update.getMessage().getChatId();
-        if (message.equals(ButtonsType.Random.name())) sender.sendRandomQuote(chatId);
-        else if (message.equals(ButtonsType.Image.name())) sender.sendStrip(chatId);
-        else sender.sendText(chatId, message);
+        String text = update.getMessage().getText();
+        long chatId = update.getMessage().getChatId();
+        MessageType type = MessageType.getButton(text);
+        switch (type) {
+            case QUOTE -> sender.sendRandomQuote(chatId);
+            case IMAGE -> sender.sendStrip(chatId);
+            case EMPTY -> sender.sendText(chatId, "Команда не распознана");
+        }
     }
 
     @Override
@@ -26,6 +29,9 @@ public class BashBot extends TelegramLongPollingBot {
 
     @Override
     public String getBotToken() {
-        return System.getenv("telegrambottoken");
+        return ("1481528235:AAF9OZ_eMnpohMTL1-u8EcPsEIxpfl0GdhA");
     }
+//    public String getBotToken() {
+//        return System.getenv("telegrambottoken");
+//    }
 }

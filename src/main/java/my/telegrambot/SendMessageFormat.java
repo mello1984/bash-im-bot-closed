@@ -29,8 +29,8 @@ public class SendMessageFormat {
         // Создаем список строк клавиатуры
         List<KeyboardRow> keyboard = new ArrayList<>();
         KeyboardRow keyboardRow = new KeyboardRow();
-        keyboardRow.add(new KeyboardButton(ButtonsType.Random.name()));
-        keyboardRow.add(new KeyboardButton(ButtonsType.Image.name()));
+        keyboardRow.add(new KeyboardButton(MessageType.QUOTE.get()));
+        keyboardRow.add(new KeyboardButton(MessageType.IMAGE.get()));
         keyboard.add(keyboardRow);
 
         replyKeyboardMarkup.setKeyboard(keyboard);
