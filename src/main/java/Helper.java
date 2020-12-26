@@ -5,7 +5,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class Helper {
-    static List<Integer> generatePeriodsList(int first, int last) {
+   public static List<Integer> generatePeriodsList(int first, int last) {
         if (Integer.toString(first).length() != Integer.toString(last).length())
             return Collections.emptyList();
         else if (Integer.toString(first).length() == 4)
@@ -27,6 +27,4 @@ public class Helper {
             return list;
         } else return Collections.emptyList();
     }
-
-
 }

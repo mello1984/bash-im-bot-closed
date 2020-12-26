@@ -14,11 +14,11 @@ public class SendMessageFormat {
         sendMessage.setParseMode("HTML");
         sendMessage.disableWebPagePreview();
         sendMessage.setChatId(chatId);
-        setMainButtons(sendMessage, chatId);
+        setMainButtons(sendMessage);
         return sendMessage;
     }
 
-    public static void setMainButtons(SendMessage sendMessage, Long chatId) {
+    public static void setMainButtons(SendMessage sendMessage) {
         // Создаем клавиатуру
         ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
         sendMessage.setReplyMarkup(replyKeyboardMarkup);
@@ -29,8 +29,8 @@ public class SendMessageFormat {
         // Создаем список строк клавиатуры
         List<KeyboardRow> keyboard = new ArrayList<>();
         KeyboardRow keyboardRow = new KeyboardRow();
-        keyboardRow.add(new KeyboardButton(ButtonsType.Random.name()));
-        keyboardRow.add(new KeyboardButton(ButtonsType.Image.name()));
+        keyboardRow.add(new KeyboardButton(MessageType.QUOTE.get()));
+        keyboardRow.add(new KeyboardButton(MessageType.IMAGE.get()));
         keyboard.add(keyboardRow);
 
         replyKeyboardMarkup.setKeyboard(keyboard);

@@ -4,20 +4,19 @@ import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 public class BashBot extends TelegramLongPollingBot {
-    Sender sender;
-
-    public BashBot() {
-        sender = new Sender(this);
-    }
+    Sender sender = new Sender(this);
 
     @Override
     public void onUpdateReceived(Update update) {
-        String message = update.getMessage().getText();
-        Long chatId = update.getMessage().getChatId();
-        System.out.println(message);
-        if (message.equals(ButtonsType.Random.name())) sender.sendRandomQuote(chatId);
-        else if (message.equals(ButtonsType.Image.name())) sender.sendStrip(chatId);
-        else sender.sendText(chatId, message);
+        String text = update.getMessage().getText();
+        MessageType type = MessageType.getButton(text);
+        long chatId = update.getMessage().getChatId();
+
+        switch (type) {
+            case QUOTE -> sender.sendRandomQuote(chatId);
+            case IMAGE -> sender.sendStrip(chatId);
+            case EMPTY -> sender.sendText(chatId, "Команда не распознана");
+        }
     }
 
     @Override
