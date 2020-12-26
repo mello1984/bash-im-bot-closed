@@ -1,6 +1,5 @@
 package my.telegrambot;
 
-import my.telegrambot.updater.UpdaterService;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
@@ -19,7 +18,7 @@ class StripsParser {
         if (document.isPresent()) {
             Elements elements = document.get().body().getElementsByClass("quote__img");
             String path = elements.get(0).attr("data-src");
-            result = "<a href=\"https://bash.im" + path + "\">#" + linkNumber + "</a>";
+            result = String.format("<a href=\"https://bash.im%s\">#%d</a>", path, linkNumber);
         }
         return result;
     }

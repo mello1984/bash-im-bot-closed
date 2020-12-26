@@ -1,36 +1,33 @@
 package my.telegrambot;
 
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.extern.log4j.Log4j2;
+
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.sql.*;
 import java.util.Optional;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-//TODO Не забыть убрать ссылку на DB и токен
-
+@Log4j2
+@Getter
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class DBRealize {
-    private static final Logger logger = Logger.getLogger(DBRealize.class.getName());
-    private static DBRealize instance = null;
-    private Connection connection;
-
-    private DBRealize() {
-        connection = setConnection();
-    }
+    private Connection connection = setConnection();
 
     private Connection setConnection() {
         Optional<Connection> optional = Optional.empty();
         while (optional.isEmpty()) {
             try {
-//                URI dbUri = new URI(System.getenv("telegrambotJDBC_DATABASE_URL"));
-                URI dbUri = new URI("postgres://muawvfwwdwnpmw:efad45804b3bac4ba53a2474d9e7b3f94ed19cd2cabc124fe7adf4ea50c05bc4@ec2-34-200-106-49.compute-1.amazonaws.com:5432/dek007pkg9iuh");
+                URI dbUri = new URI(System.getenv("telegrambotJDBC_DATABASE_URL"));
                 String username = dbUri.getUserInfo().split(":")[0];
                 String password = dbUri.getUserInfo().split(":")[1];
                 String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath() + "?sslmode=require";
                 optional = Optional.of(DriverManager.getConnection(dbUrl, username, password));
-                logger.log(Level.INFO, "Database Connection Initialized");
+                log.info("Database Connection Initialized");
             } catch (URISyntaxException | SQLException e) {
-                logger.log(Level.SEVERE, "Exception with connection to database", e);
+                log.warn("Exception with connection to database", e);
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException interruptedException) {
@@ -79,11 +76,10 @@ public class DBRealize {
     }
 
     public static DBRealize getInstance() {
-        if (instance == null) instance = new DBRealize();
-        return instance;
+        return DBHolder.HOLDER_INSTANCE;
     }
 
-    public Connection getConnection() {
-        return connection;
+    private static class DBHolder {
+        private static final DBRealize HOLDER_INSTANCE = new DBRealize();
     }
 }

@@ -14,8 +14,6 @@ import java.util.logging.Logger;
 @Log4j2
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class DocumentDownloader {
-    private static DocumentDownloader downloader;
-
     public Optional<Document> download(String url) {
         Optional<Document> document = Optional.empty();
         try {
@@ -28,7 +26,10 @@ public class DocumentDownloader {
     }
 
     public static DocumentDownloader getInstance() {
-        if (downloader == null) downloader = new DocumentDownloader();
-        return downloader;
+        return DocumentDownloaderHolder.HOLDER_INSTANCE;
+    }
+
+    private static class DocumentDownloaderHolder {
+        public static final DocumentDownloader HOLDER_INSTANCE = new DocumentDownloader();
     }
 }

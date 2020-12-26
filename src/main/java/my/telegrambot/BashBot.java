@@ -4,17 +4,14 @@ import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 public class BashBot extends TelegramLongPollingBot {
-    Sender sender;
-
-    public BashBot() {
-        sender = new Sender(this);
-    }
+    Sender sender = new Sender(this);
 
     @Override
     public void onUpdateReceived(Update update) {
         String text = update.getMessage().getText();
-        long chatId = update.getMessage().getChatId();
         MessageType type = MessageType.getButton(text);
+        long chatId = update.getMessage().getChatId();
+
         switch (type) {
             case QUOTE -> sender.sendRandomQuote(chatId);
             case IMAGE -> sender.sendStrip(chatId);
@@ -29,9 +26,6 @@ public class BashBot extends TelegramLongPollingBot {
 
     @Override
     public String getBotToken() {
-        return ("1481528235:AAF9OZ_eMnpohMTL1-u8EcPsEIxpfl0GdhA");
+        return System.getenv("telegrambottoken");
     }
-//    public String getBotToken() {
-//        return System.getenv("telegrambottoken");
-//    }
 }

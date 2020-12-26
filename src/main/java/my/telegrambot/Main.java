@@ -1,6 +1,5 @@
 package my.telegrambot;
 
-import my.telegrambot.updater.UpdaterService;
 import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 

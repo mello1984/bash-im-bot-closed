@@ -1,6 +1,6 @@
-package my.telegrambot.updater;
+package my.telegrambot;
 
-import my.telegrambot.DBRealize;
+import lombok.extern.log4j.Log4j2;
 
 import java.io.*;
 import java.sql.PreparedStatement;
@@ -8,7 +8,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 
-public class DataBaseUpdater {
+@Log4j2
+public class DBUpdater {
     private static final int SIZE = 2000;
     private static final String CLEAR = "DELETE FROM %s";
     private static final String INSERT = "INSERT INTO %1$s (%2$s) VALUES (?)";
@@ -43,6 +44,7 @@ public class DataBaseUpdater {
             Integer[] integersToDB = new Integer[array_size];
             System.arraycopy(ints, count_min, integersToDB, 0, array_size);
             saveArrayQuotesToDataBase(integersToDB, table, column);
+            log.info(String.format("Update collection %s, actual_size: %d", table, ints.length));
         }
     }
 

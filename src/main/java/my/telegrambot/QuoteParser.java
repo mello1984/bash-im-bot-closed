@@ -1,6 +1,5 @@
 package my.telegrambot;
 
-import my.telegrambot.updater.UpdaterService;
 import org.jsoup.nodes.Document;
 
 import java.util.*;
